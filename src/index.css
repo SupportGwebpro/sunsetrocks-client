@@ -10,3 +10,47 @@
     font-family: var(--font-sans);
   }
 }
+@layer utilities {
+  /* Thin scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin; /* Firefox */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-400, #9ca3af); /* fallback */
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gray-500, #6b7280);
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-none {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-600, #4b5563);
+  }
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gray-700, #374151);
+  }
+  .react-datepicker-wrapper {
+    display: block;
+  }
+}
