@@ -1,16 +1,11 @@
-import { Link } from "react-router";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
 import GuestRegisterInfo from "../components/GuestRegisterInfo";
 
 export default function GuestRegister() {
   return (
     <main>
-      <section className="flex min-h-dvh">
+      <section className="flex min-h-dvh flex-col lg:flex-row">
         <GuestRegisterInfo />
-        <div className="w-1/2 py-20 px-36">
+        <div className="w-full lg:w-1/2 py-8 px-4 md:py-20 md:px-36 lg:px-4 xl:px-36">
           <div className="flex max-w-[483px] min-h-dvh flex-col items-center mx-auto text-center justify-center">
             <img
               src="/images/thankyou-checkmark.svg"
