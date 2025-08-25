@@ -51,6 +51,6 @@
     background-color: var(--color-gray-700, #374151);
   }
   .react-datepicker-wrapper {
-    display: block;
+    display: block !important;
   }
 }

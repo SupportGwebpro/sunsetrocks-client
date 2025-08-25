@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Events from "./pages/Events";
 import RegisteredUsers from "./pages/RegisteredUsers";
 import Config from "./pages/Config";
+import EventDetail from "./pages/EventDetail";
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="events" element={<Events />} />
           <Route path="registered-users" element={<RegisteredUsers />} />
           <Route path="config" element={<Config />} />
+          <Route path="event/:id" element={<EventDetail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

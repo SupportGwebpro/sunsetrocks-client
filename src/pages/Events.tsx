@@ -3,6 +3,56 @@ import { ChevronDown, Edit, IconEye } from "../components/SVG";
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import DatePicker from "react-datepicker";
+import Select from "react-select";
+
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
+// Custom styles using Tailwind classes
+const customStyles = {
+  container: (provided) => ({
+    ...provided,
+    flexGrow: 1, // <-- make the wrapper grow
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#FBFBFB",
+    borderColor: state.isFocused ? "#F9298C" : "#EAF0FF",
+    borderRadius: "0.75rem", // Tailwind rounded-xl
+    padding: "0.5rem 1rem", // Tailwind py-2 px-4
+    boxShadow: "none",
+    "&:hover": {
+      borderColor: "#F9298C",
+    },
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#A0AEC0", // Tailwind text-gray-400
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "0.75rem",
+    backgroundColor: "#FBFBFB",
+    marginTop: 4,
+    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused
+      ? "#FCE4EC" // Tailwind pink-100
+      : "transparent",
+    color: "#1A202C", // Tailwind text-gray-900
+    cursor: "pointer",
+    padding: "0.5rem 1rem",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#1A202C",
+  }),
+};
 
 export default function Events() {
   const [selectedDate, setSelectedDate] = useState();
@@ -42,9 +92,9 @@ export default function Events() {
                 <Dialog.Overlay className="fixed inset-0 bg-[#00001D99] animate-fadeIn" />
 
                 {/* Content */}
-                <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[1406px] -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white shadow-lg focus:outline-none animate-scaleIn">
+                <Dialog.Content className="fixed left-1/2 top-1/2 w-[95vw] max-w-[1406px] -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white shadow-lg focus:outline-none animate-scaleIn">
                   {/* Title */}
-                  <div className="py-11 pl-20 pr-32 h-100 overflow-y-auto scrollbar-thin">
+                  <div className="py-11 pl-20 pr-32 overflow-y-auto scrollbar-thin max-h-[calc(100dvh-250px)]">
                     <Dialog.Title className="text-black font-bold text-4xl leading-12 mb-5">
                       Create Event
                     </Dialog.Title>
@@ -87,6 +137,7 @@ export default function Events() {
                         className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors flex-grow bg-[#FBFBFB] outline-none rounded-xl min-h-[107px]"
                       />
                     </div>
+
                     <div className="flex gap-4 items-center mb-5">
                       <label className="text-xl w-[170px] flex-shrink-0">
                         Date
@@ -109,7 +160,7 @@ export default function Events() {
                               onChange={(date) => setSelectedDate(date)}
                               dateFormat="MMMM d, yyyy"
                               className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors bg-[#FBFBFB] outline-none rounded-xl cursor-pointer text-left relative w-full"
-                              placeholderText="Event Start Date"
+                              placeholderText="Event End Date"
                             />
                           </div>
                           <div>
@@ -118,10 +169,101 @@ export default function Events() {
                               onChange={(date) => setSelectedDate(date)}
                               dateFormat="MMMM d, yyyy"
                               className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors bg-[#FBFBFB] outline-none rounded-xl cursor-pointer text-left relative w-full"
-                              placeholderText="Event Start Date"
+                              placeholderText="Registration Closing Date"
                             />
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center mb-5">
+                      <label className="text-xl w-[170px] flex-shrink-0">
+                        Time
+                        <span className="text-[#F9298C] ">*</span>
+                      </label>
+                      <div className="flex-grow">
+                        <div className="grid gap-4 grid-cols-3">
+                          <div>
+                            <DatePicker
+                              selected={selectedDate}
+                              onChange={(date) => setSelectedDate(date)}
+                              // dateFormat="MMMM d, yyyy"
+                              className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors bg-[#FBFBFB] outline-none rounded-xl cursor-pointer text-left relative w-full"
+                              placeholderText="Select Time"
+                              showTimeSelect
+                              showTimeSelectOnly
+                              timeIntervals={1}
+                              timeCaption="Time"
+                              dateFormat="h:mm aa"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center mb-5">
+                      <label className="text-xl w-[170px] flex-shrink-0">
+                        Country
+                        <span className="text-[#F9298C] ">*</span>
+                      </label>
+                      <div className="flex-grow">
+                        <div className="grid gap-4 grid-cols-3">
+                          <div>
+                            <Select
+                              options={options}
+                              placeholder="Select Country"
+                              styles={customStyles}
+                            />
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <label htmlFor="" className="text-xl flex-shrink-0">
+                              State<span className="text-[#F9298C] ">*</span>
+                            </label>
+                            <Select
+                              options={options}
+                              placeholder="Select State"
+                              styles={customStyles}
+                            />
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <label htmlFor="" className="text-xl flex-shrink-0">
+                              City<span className="text-[#F9298C] ">*</span>
+                            </label>
+                            <Select
+                              options={options}
+                              placeholder="Select City"
+                              styles={customStyles}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center mb-5">
+                      <label className="text-xl w-[170px] flex-shrink-0">
+                        Terms and Conditions
+                      </label>
+                      <div className="flex-grow">
+                        <textarea
+                          name=""
+                          id=""
+                          className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors flex-grow bg-[#FBFBFB] outline-none rounded-xl min-h-[184px] w-full"
+                          placeholder="Terms and Conditions"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center mb-5">
+                      <label className="text-xl w-[170px] flex-shrink-0">
+                        Miscellaneous Details
+                      </label>
+                      <div className="flex-grow">
+                        <textarea
+                          name=""
+                          id=""
+                          className="border py-4.5 px-8 border-[#EAF0FF] focus:border-[#F9298C] transition-colors flex-grow bg-[#FBFBFB] outline-none rounded-xl min-h-[184px] w-full"
+                          placeholder="Miscellaneous Details"
+                        ></textarea>
                       </div>
                     </div>
                   </div>
@@ -215,7 +357,7 @@ function EventsTableRow() {
         <td className="p-4">Toronto, CA</td>
         <td className="p-4">544HGJGJ47G</td>
         <td className="p-4">
-          <button>Copy Event</button>
+          <button className="cursor-pointer">Copy Event</button>
         </td>
         <td className={`p-4 ${open ? "rounded-tr-2xl" : "rounded-r-2xl"}`}>
           <div className="flex items-center gap-5 justify-end">
@@ -245,12 +387,38 @@ function EventsTableRow() {
                   <p className="text-xl font-medium">Checked-In: 0</p>
                 </div>
                 <div className="flex items-center gap-6">
-                  <button className="text-white text-center font-bold py-3.5 px-4 bg-[#F9298C] rounded-xl">
+                  <button className="text-white text-center font-bold py-3.5 px-4 bg-[#F9298C] rounded-xl cursor-pointer">
                     Download Reports
                   </button>
-                  <button className="text-white text-center font-bold py-3.5 px-4 bg-[#F9298C] rounded-xl">
-                    Copy Link
-                  </button>
+                  <Dialog.Root>
+                    <Dialog.Trigger>
+                      <button className="text-white text-center font-bold py-3.5 px-4 bg-[#F9298C] rounded-xl cursor-pointer">
+                        Copy Link
+                      </button>
+                    </Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Overlay className="fixed inset-0 bg-[#00001D99] animate-fadeIn" />
+                      <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white shadow-lg focus:outline-none animate-scaleIn w-[617px] p-12 ">
+                        <Dialog.Title />
+                        <Dialog.Description />
+                        <div className="flex gap-4">
+                          <div className="flex-grow-1">
+                            <input
+                              type="text"
+                              readOnly
+                              value="https://domain_name/event/invite?token=xxxxx"
+                              className="w-full bg-[#F4F4F4] rounded-lg py-3.5 px-4 focus:border-[#F9298C] border border-[#F4F4F4] transition-colors outline-none"
+                            />
+                          </div>
+                          <Dialog.Close>
+                            <button className="text-white text-center font-bold py-3.5 px-4 bg-[#F9298C] rounded-xl cursor-pointer">
+                              Copy Link
+                            </button>
+                          </Dialog.Close>
+                        </div>
+                      </Dialog.Content>
+                    </Dialog.Portal>
+                  </Dialog.Root>
                 </div>
               </div>
             </div>
