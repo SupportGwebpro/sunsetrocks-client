@@ -452,8 +452,10 @@ export default function Dashboard() {
       <div>
         <Tabs.Root defaultValue="tab1" orientation="horizontal">
           <div className="flex justify-between items-center">
-            <p className="text-black text-2xl font-bold leading-12">All Events Overview</p>
-            <Tabs.List className="flex gap-4 mb-3.5" aria-label="Example tabs">
+            <p className="text-black text-2xl font-bold leading-12">
+              All Events Overview
+            </p>
+            <Tabs.List className="flex gap-4 mb-3.5" aria-label="tabs">
               <Tabs.Trigger
                 className="py-2.5 px-6 border border-[#E0E0E0] rounded-xl text-black font-bold data-[state=active]:text-white data-[state=active]:border-black data-[state=active]:bg-black"
                 value="tab1"
