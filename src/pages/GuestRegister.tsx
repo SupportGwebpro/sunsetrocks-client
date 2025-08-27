@@ -49,7 +49,6 @@ export default function GuestRegister() {
     onConfirm: () => { }
   });
 
-  // Extract event code from URL on component mount
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('eventCode');
@@ -59,7 +58,6 @@ export default function GuestRegister() {
     }
   }, []);
 
-  // API call to get event details
   const fetchEventDetails = async (code: string) => {
     setIsLoading(true);
     try {
@@ -86,7 +84,6 @@ export default function GuestRegister() {
     }
   };
 
-  // API call to register for event
   const registerForEvent = async (data: FormData) => {
     setIsSubmitting(true);
     try {
@@ -96,7 +93,6 @@ export default function GuestRegister() {
         lastName: data.lastName,
         emailId: data.emailId,
         phoneNo: data.phoneNo,
-        // Note: companyName is not included in the API request based on your specification
       };
 
       const response = await fetch('https://sunset.sourcedeskit.ca/v1/guest/registerEvent', {
@@ -111,7 +107,6 @@ export default function GuestRegister() {
 
       if (result.meta.status) {
         showSuccessModal("Registration Successful", result.meta.message);
-        // Reset form after successful registration
         setFormData({
           firstName: "",
           lastName: "",
@@ -131,7 +126,6 @@ export default function GuestRegister() {
     }
   };
 
-  // Helper functions for modals
   const showErrorModal = (title: string, description: string) => {
     setModalConfig({
       title,
@@ -152,7 +146,6 @@ export default function GuestRegister() {
     setShowModal(true);
   };
 
-  // Email validation function
   const validateEmail = (email: string): { isValid: boolean; message?: string } => {
     const trimmedEmail = email.trim();
 
@@ -164,7 +157,6 @@ export default function GuestRegister() {
       return { isValid: false, message: "Email cannot contain consecutive dots." };
     }
 
-    // Basic email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(trimmedEmail)) {
       return { isValid: false, message: "Please enter a valid email address." };
@@ -173,7 +165,6 @@ export default function GuestRegister() {
     return { isValid: true };
   };
 
-  // Form validation
   const validateForm = (data: FormData): boolean => {
     return !!(
       data.firstName.trim() &&
@@ -187,26 +178,22 @@ export default function GuestRegister() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate email
     const emailValidation = validateEmail(formData.emailId);
     if (!emailValidation.isValid) {
       showErrorModal("Invalid Email", emailValidation.message || "Please enter a valid email.");
       return;
     }
 
-    // Check if all required fields are filled
     if (!validateForm(formData)) {
       showErrorModal("Incomplete Form", "Please fill in all required fields.");
       return;
     }
 
-    // Check if event code exists
     if (!eventCode) {
       showErrorModal("Missing Event Code", "Event code not found. Please check your invitation link.");
       return;
     }
 
-    // Register for event
     await registerForEvent(formData);
   };
 
@@ -217,7 +204,6 @@ export default function GuestRegister() {
     setIsFormValid(validateForm(updatedData));
   };
 
-  // Show loading state while fetching event details
   if (isLoading) {
     return (
       <main>
@@ -301,7 +287,6 @@ export default function GuestRegister() {
         </div>
       </section>
 
-      {/* Modal for showing messages */}
       {showModal && (
         <ConfirmModal
           title={modalConfig.title}
