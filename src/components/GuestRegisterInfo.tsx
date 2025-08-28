@@ -1,12 +1,51 @@
 import { Link } from "react-router";
 
-export default function GuestRegisterInfo() {
+interface GuestRegisterInfoProps {
+  EventData: {
+    eventName: string;
+    eventStartDate: string;
+    eventTime: string;
+    eventLocation: string;
+    eventDescription: string;
+    eventImages: string[];
+  };
+}
+
+export default function GuestRegisterInfo({ EventData }: GuestRegisterInfoProps) {
+
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    if (isNaN(date?.getTime())) {
+      return 'Invalid date';
+    }
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    return formatter.format(date);
+  }
+
+  function convertTo12Hour(time24: string) {
+    if (typeof time24 !== 'string' || !time24.includes(":")) {
+      return "Invalid time format";
+    }
+    const [hourStr, minuteStr] = time24.split(":");
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+    const period = hours >= 12 ? "PM" : "AM";
+    const hour12 = hours % 12 || 12;
+    return `${hour12}:${minuteStr.padStart(2, '0')} ${period}`;
+  }
   return (
-    <div className="w-full lg:w-1/2 bg-[#FDE34E99] py-8 px-4 md:py-20 md:px-36 lg:px-4 xl:px-36">
+    <div className="w-full min-h-screen  lg:w-1/2 bg-[#FDE34E99] py-4 px-4 md:py-10 md:px-36 lg:px-4 xl:px-28">
       <div className="flex justify-center">
         <Link
           to="/"
-          className="text-black text-center text-2xl md:text-3xl font-bold leading-12 mb-8 sm:mb-10 md:mb-14 lg:mb-20 hover:text-gray-600 transition-colors block max-w-[326px]"
+          className="text-black text-center text-2xl md:text-3xl font-bold leading-12 mb-5 sm:mb-10 md:mb-10  hover:text-gray-600 transition-colors block max-w-[326px]"
         >
           <img src="/images/sunset-rocks-logo.webp" alt="" className="w-100" />
         </Link>
@@ -41,12 +80,12 @@ export default function GuestRegisterInfo() {
         </SwiperSlide>
       </Swiper> */}
       <div className="flex justify-center">
-        <img src="/images/guest-register-ufo.webp" alt="" className="block" />
+        <img src={EventData?.eventImages?.length == 0 ? "/images/guest-register-ufo.webp" : EventData?.eventImages[0]} alt="" className="block w-[100%]" />
       </div>
       <div className="custom-pagination text-center mb-11 mt-1"></div>
 
       <h1 className="text-black text-center text-[30px] md:text-[35px] lg:text-[40px] font-bold leading-12 mb-11">
-        Annual Gala 2025
+        {EventData?.eventName || "No Event Name"}
       </h1>
       <p className="text-[16px] md:text-[18px] lg:text-[20px] leading-7 mb-7">
         <img
@@ -54,7 +93,7 @@ export default function GuestRegisterInfo() {
           alt=""
           className="inline-block mr-2 lg:mr-5"
         />
-        October 26, 2025 | 7:00 PM onwards
+        {formatDate(EventData?.eventStartDate) || "No Date Available"} | {convertTo12Hour(EventData?.eventTime)} onwards
       </p>
       <p className="text-[16px] md:text-[18px] lg:text-[20px] leading-7 mb-7">
         <img
@@ -62,14 +101,11 @@ export default function GuestRegisterInfo() {
           alt=""
           className="inline-block mr-2 lg:mr-5"
         />
-        The Grand Ballroom, Downtown
+        {EventData?.eventLocation || "No Location Available"}
       </p>
       <div className="mt-5 mb-10">
         <p className="text-[16px] md:text-[18px] lg:text-[20px] leading-7">
-          Lorem ipsum dolor sit amet consectetur. Nisl diam ut scelerisque dui.
-          Sem nunc amet augue odio ultricies augue ut ornare. Lorem mauris at
-          sem et. Amet nam pellentesque venenatis enim pellentesque vulputate.
-          Nec non porta luctus ridiculus eget porta. Consectetur egestas ac.
+          {EventData?.eventDescription || "No description available."}
         </p>
       </div>
       <Link

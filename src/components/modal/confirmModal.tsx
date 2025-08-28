@@ -1,45 +1,26 @@
-import { type ReactNode } from "react";
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { Button, Flex } from "@radix-ui/themes";
-
-interface ConfirmModalProps {
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
     title: string;
-    description: ReactNode;
-    actionLabel: string;
-    triggerLabel: string;
-    onConfirm: () => void;
+    description: string;
 }
 
-export default function ConfirmModal({
-    title,
-    description,
-    actionLabel,
-    triggerLabel,
-    onConfirm,
-}: ConfirmModalProps) {
+export default function Modal({ isOpen, onClose, title, description }: ModalProps) {
+    if (!isOpen) return null;
+
     return (
-        <AlertDialog.Root>
-            <AlertDialog.Trigger>
-                <Button color="red">{triggerLabel}</Button>
-            </AlertDialog.Trigger>
-            <AlertDialog.Content style={{ maxWidth: "450px" }}>
-                <AlertDialog.Title>{title}</AlertDialog.Title>
-                <AlertDialog.Description>
-                    {description}
-                </AlertDialog.Description>
-                <Flex gap="3" mt="4" justify="end">
-                    <AlertDialog.Cancel>
-                        <Button variant="soft" color="gray">
-                            Cancel
-                        </Button>
-                    </AlertDialog.Cancel>
-                    <AlertDialog.Action asChild>
-                        <Button variant="solid" color="red" onClick={onConfirm}>
-                            {actionLabel}
-                        </Button>
-                    </AlertDialog.Action>
-                </Flex>
-            </AlertDialog.Content>
-        </AlertDialog.Root>
+        <div className="fixed inset-0 bg-[#000000cf] bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4 p-6 relative">
+                <button
+                    onClick={onClose}
+                    className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold"
+                    aria-label="Close"
+                >
+                    &times;
+                </button>
+                <h2 className="text-xl md:text-2xl font-semibold mb-4 text-center">{title}</h2>
+                <p className="text-gray-700 text-center">{description}</p>
+            </div>
+        </div>
     );
 }

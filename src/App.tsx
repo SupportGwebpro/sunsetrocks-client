@@ -16,7 +16,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<div>App</div>} />
-          <Route path="/register" element={<GuestRegister />} />
+          <Route path="/event/invite" element={<GuestRegister />} />
           <Route path="/thank-you" element={<Thankyou />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
