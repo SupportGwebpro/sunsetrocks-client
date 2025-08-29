@@ -58,8 +58,9 @@ export default function GuestRegister() {
       const result: ApiResponse<EventDetails> = response.data;
 
       if (result.meta.status) {
-        const EventData = result.data;
-        setEventDetails(EventData);
+        const EventData = result.data.eventDetails;
+        const EventImage = result.data.eventImages;
+        setEventDetails({ ...EventData, eventImages: EventImage });
       } else {
         setShowErrorModal({ title: "Event Not Found", description: result.meta.message });
       }
@@ -80,6 +81,7 @@ export default function GuestRegister() {
         lastName: data.lastName,
         emailId: data.emailId,
         phoneNo: data.phoneNo,
+        companyName: data.companyName,
       };
 
       const response = await API.registerEvent(requestBody);

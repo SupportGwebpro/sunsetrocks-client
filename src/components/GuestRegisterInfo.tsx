@@ -12,7 +12,6 @@ interface GuestRegisterInfoProps {
 }
 
 export default function GuestRegisterInfo({ EventData }: GuestRegisterInfoProps) {
-
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     if (isNaN(date?.getTime())) {
